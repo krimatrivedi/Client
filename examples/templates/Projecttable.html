@@ -1,0 +1,44 @@
+{% extends '1base.html' %}
+
+{% block content %}
+{% include "dashboard.html" %}
+
+{% include "_modal.html" %}
+<style>
+  .table{
+    margin-left: 90px;
+  }
+  </style>
+<div class="col-12 mb-3">
+<table id="books-table" class="table">
+  <thead>
+  <tr>
+    <th class="text-center" scope="col">#</th>
+    <th class="text-center" scope="col">projectid</th>
+    <th class="text-center" scope="col">projectname</th>
+    <th class="text-center" scope="col">Department</th>
+    <th class="text-center" scope="col">priority</th>
+    <th class="text-center" scope="col">client</th>
+    <th class="text-center" scope="col">workstatus</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for project in projectss %}
+    <tr>
+      <th class="text-center" scope="row">{{ forloop.counter }}</th>
+      <td class="text-center">{{ project.projectid }}</td>
+      <td class="text-center">{{ project.projectname }}</td>
+      <td class="text-center">{{ project.Department }}</td>
+      <td class="text-center">{{ project.priority }}</td>
+      <td class="text-center">{{ project.client }}</td>
+      <td class="text-center">{{ project.workstatus }}</td>
+      <td class="text-center">
+       
+      </td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+</div>
+{% endblock content %}

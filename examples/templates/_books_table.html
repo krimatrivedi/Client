@@ -1,0 +1,43 @@
+{% extends '1base.html' %}
+
+{% block content %}
+{% include "dashboard.html" %}
+
+{% include "_modal.html" %}
+<style>
+.table{
+  margin-left: 90px;
+}
+</style>
+<div class="col-12 ">
+<table id="books-table" class="table">
+  <thead>
+  <tr>
+    <th class="text-center" scope="col">#</th>
+    <th class="text-center" scope="col">clientname</th>
+    <th class="text-center" scope="col">clientcompany</th>
+    <th class="text-center" scope="col">clientphone</th>
+    <th class="text-center" scope="col">clientemail</th>
+    <th class="text-center" scope="col">Pages</th>
+    
+  </tr>
+  </thead>
+  <tbody>
+  {% for book in books %}
+    <tr>
+      <th class="text-center" scope="row">{{ forloop.counter }}</th>
+      <td class="text-center">{{ book.clientname }}</td>
+      <td class="text-center">{{ book.clientcompany }}</td>
+      <td class="text-center">{{ book.clientphone }}</td>
+      <td class="text-center">{{ book.clientemail }}</td>
+      <td class="text-center">{{ book.pages }}</td>
+      <td class="text-center">
+       
+      </td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+</div>
+{% endblock content %}

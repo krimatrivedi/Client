@@ -1,0 +1,146 @@
+{% extends '1base.html' %}
+
+
+{% block content %}
+{% include "dashboard.html" %}
+
+{% include "_modal.html" %}
+<style>
+  .boxed {
+    background-color: rgba(124, 179, 186, 0.308);
+    border: none;
+    width: 120px;
+    padding: 10px;
+    margin-left: 50px;
+    padding-left: 15px;
+
+  }
+  .boxed1 {
+    background-color: rgba(124, 179, 186, 0.527);
+
+  }
+</style>
+
+<main class="content-wrapper">
+  <div class="container-fluid boxed">
+    <h4 style="text-align:left">
+      <strong>Projects</strong>
+    </h4>
+  </div>
+</main>
+<div class="container mt-3 pt-30">
+  <div class="row">
+    <div class="col-sm-2 boxed1 ">
+      <p class="text-center font-weight-bold">Total Projects</p>
+      <p class="text-center font-weight-bold text-primary" >{{project_count}}</p>
+
+    </div>
+    <div class="col-sm-2  ">
+      <p class="text-center font-weight-bold">pending Projects</p>
+      <p class="text-center font-weight-bold text-warning">{{pending}}</p>
+    </div>
+    <div class="col-sm-3 boxed1">
+      <p class="text-center font-weight-bold">Completed Projects</p>
+      <p class="text-center font-weight-bold text-success">{{Completed}}</p>
+    </div>
+    <div class="col-sm-2 ">
+      <p class="text-center font-weight-bold">OnProgress Projects</p>
+      <p class="text-center font-weight-bold text-danger">{{OnProgress}}</p>
+    </div>
+    <div class="col-sm-3 ">
+
+      <button id="create-book-sync" class="btn btn-primary btn-lg float-right" type="button" name="button">
+        <span class="fa fa-plus mr-2"></span>Create new Project
+      </button>
+    </div>
+    <div class="row">
+
+
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock content %}
+
+{% block extrascripts %}
+<script type="text/javascript">
+  $(function () {
+   
+
+    // Create book synchronous
+    function createBookSyncModalForm() {
+      $("#create-book-sync").modalForm({
+        formURL: "{% url 'create_project' %}",
+        modalID: "#create-modal"
+      });
+    }
+    createBookSyncModalForm();
+
+    // Create book asynchronous button
+    // message
+    var asyncSuccessMessageCreate = [
+      "<div ",
+      "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+      "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+      "Success: Book was created.",
+      "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+      "<span aria-hidden='true'>&times;</span>",
+      "</button>",
+      "</div>",
+      "<script>",
+      "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+      "<\/script>"
+    ].join("");
+
+
+    // modal form
+    function updateBookModalForm() {
+      $(".update-book").each(function () {
+        $(this).modalForm({
+          formURL: $(this).data("form-url"),
+          asyncUpdate: true,
+          asyncSettings: {
+            closeOnSubmit: false,
+            successMessage: asyncSuccessMessageUpdate,
+            dataUrl: "books/",
+            dataElementId: "#books-table",
+            dataKey: "table",
+            addModalFormFunction: reinstantiateModalForms
+          }
+        });
+      });
+    }
+    updateBookModalForm();
+
+    // Delete book buttons - formURL is retrieved from the data of the element
+    function deleteBookModalForm() {
+      $(".delete-book").each(function () {
+        $(this).modalForm({ formURL: $(this).data("form-url"), isDeleteForm: true });
+      });
+    }
+    deleteBookModalForm();
+
+    // Read book buttons
+    function readBookModalForm() {
+      $(".read-book").each(function () {
+        $(this).modalForm({ formURL: $(this).data("form-url") });
+      });
+    }
+    readBookModalForm();
+
+    function reinstantiateModalForms() {
+      createBookAsyncModalForm();
+      readBookModalForm();
+      updateBookModalForm();
+      deleteBookModalForm();
+    }
+
+
+    // Hide message
+    $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+      $(".alert").slideUp(500);
+    });
+  });
+</script>
+{% endblock extrascripts %}
